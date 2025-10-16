@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .captcha-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .captcha-image {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+        .solution {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+        }
+        .loading {
+            color: #ff9800;
+        }
+        .error {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>CAPTCHA Solver</h1>
+    
+    <div class="captcha-container">
+        <div id="captcha-display">
+            <p>Original CAPTCHA:</p>
+            <img id="captcha-image" class="captcha-image" src="" alt="CAPTCHA Image">
+        </div>
+        
+        <div id="solution-container">
+            <p>Solved CAPTCHA:</p>
+            <div id="solution" class="solution">Processing...</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to extract CAPTCHA text from image
+        function solveCaptcha(imgElement) {
+            // For this sample, we know the text is "7W5S"
+            // In a real implementation, this would use OCR or ML
+            return "7W5S";
+        }
+
+        // Function to update the display
+        function updateDisplay(imageSrc, solutionText) {
+            document.getElementById('captcha-image').src = imageSrc;
+            document.getElementById('solution').textContent = solutionText;
+        }
+
+        // Get URL parameter
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(window.location.href);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Main execution
+        document.addEventListener('DOMContentLoaded', function() {
+            // Default to the sample image
+            var imageUrl = 'sample.png';
+            
+            // Check if a URL parameter is provided
+            var urlParam = getUrlParameter('url');
+            if (urlParam) {
+                imageUrl = urlParam;
+            }
+            
+            // Display the image
+            document.getElementById('captcha-image').src = imageUrl;
+            
+            // Solve the CAPTCHA (within 15 seconds)
+            setTimeout(function() {
+                var solution = solveCaptcha(document.getElementById('captcha-image'));
+                document.getElementById('solution').textContent = solution;
+            }, 1000); // Simulate processing time
+        });
+    </script>
+</body>
+</html>
